@@ -35,7 +35,23 @@ private:
         int info;
         Node *next;
     };
-
+    class Iterator{
+        Node *p;
+        public:
+            Iterator()=delete;
+            Iterator(Node *ptr){p=ptr;}
+            Iterator& begin(){return *this;}
+            Iterator end(){return *this;}
+            int operator*(){return p->info;}
+            bool operator!=(Iterator o){return p!=0;}
+            Iterator& operator++(){
+                p=p->next;
+                return *this;
+            }
+    };
+    Iterator iter() const {
+        return Iterator(first);
+    }
     Node *first; // pointer to first node (DO NOT CHANGE):
 };
 

@@ -9,45 +9,80 @@ using std::cout;
 
 // copy constructor
 IntList::IntList(const IntList& source) {
-    //IMPLEMENT THIS
+    first=0;
+    if(!source.first) return;
+    first=new Node{source.first->info,0};
+    Node *tmp=first;
+    for(int n:Iterator(source.first->next)){
+        tmp->next=new Node{n,0};
+        tmp=tmp->next;
+    }
 }
 
 // destructor deletes all nodes
 IntList::~IntList() {
-    //IMPLEMENT THIS
+    while(first){
+        Node *tmp=first->next;
+        delete first;
+        first=tmp;
+    }
 }
 
 
 // return sum of values in list
 int IntList::sum() const {
-    return 0; // REPLACE THIS NON-SOLUTION
+    int s=0;
+    for(int n: iter()) s+=n;
+    return s;
 }
 
 // returns true if value is in the list; false if not
 bool IntList::contains(int value) const {
-    return false; // REPLACE THIS NON-SOLUTION
+    for(int n: iter()) if(n==value) return true;
+    return false;
 }
 
 // returns maximum value in list, or 0 if empty list
 int IntList::max() const {
-    return 0; // REPLACE THIS NON-SOLUTION
+    if(!first) return 0;
+    int max=first->info;
+    for(int n: iter()) if(n>max) max=n;
+    return max;
 }
 
 // returns average (arithmetic mean) of all values, or
 // 0 if list is empty
 double IntList::average() const {
-    return 0.0; // REPLACE THIS NON-SOLUTION
+    if(!first) return 0;
+    int c=0, s=0;
+    for(int n:iter()){
+        c++;
+        s+=n;
+    }
+    return 1.0*s/c;
 }
 
 // inserts value as new node at beginning of list
 void IntList::insertFirst(int value) {
-    // IMPLEMENT
+    first=new Node{value, first};
 }
 
 //Assignment operator should copy the list from the source
 //to this list, deleting/replacing any existing nodes
 IntList& IntList::operator=(const IntList& source){
-    //IMPLEMENT
+    while(first){
+        Node *tmp=first->next;
+        delete first;
+        first=tmp;
+    }
+    first=0;
+    if(!source.first) return *this;
+    first=new Node{source.first->info,0};
+    Node *tmp=first;
+    for(int n:Iterator(source.first->next)){
+        tmp->next=new Node{n,0};
+        tmp=tmp->next;
+    }
     return *this;
 }
 
